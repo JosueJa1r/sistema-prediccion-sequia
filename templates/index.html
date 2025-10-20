@@ -253,6 +253,21 @@
             from { background-position: 40px 0; }
             to { background-position: 0 0; }
         }
+        
+        .chart-description {
+            background-color: rgba(30, 40, 55, 0.7);
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #9F2241;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #d0d0d0;
+        }
+        
+        .chart-description strong {
+            color: #9F2241;
+        }
     </style>
 </head>
 <body>
@@ -362,6 +377,14 @@
                     <!-- Gráfico de precipitación diaria -->
                     <div class="dashboard-card">
                         <h4>Precipitación Diaria (Últimos 90 días)</h4>
+                        <p class="chart-description">
+                            <strong>¿Qué puedes ver aquí?</strong><br>
+                            Este gráfico muestra la cantidad de lluvia registrada cada día durante los últimos 90 días. 
+                            Las barras rojas representan los milímetros de precipitación diaria. 
+                            <strong>Picos altos</strong> indican días lluviosos, mientras que 
+                            <strong>barras bajas o ausentes</strong> sugieren períodos secos. 
+                            Esta información es crucial para identificar patrones de sequía.
+                        </p>
                         <div class="chart-container">
                             <canvas id="dailyChart"></canvas>
                         </div>
@@ -370,6 +393,14 @@
                     <!-- Gráfico de precipitación semanal -->
                     <div class="dashboard-card">
                         <h4>Precipitación Semanal</h4>
+                        <p class="chart-description">
+                            <strong>¿Qué puedes ver aquí?</strong><br>
+                            Este gráfico agrupa los datos diarios en semanas para mostrar patrones más amplios. 
+                            Las barras doradas representan la precipitación total de cada semana. 
+                            <strong>Barras altas</strong> indican semanas lluviosas, mientras que 
+                            <strong>barras bajas</strong> sugieren semanas secas. 
+                            Esto ayuda a identificar tendencias semanales y períodos de sequía prolongada.
+                        </p>
                         <div class="chart-container">
                             <canvas id="weeklyChart"></canvas>
                         </div>
@@ -378,6 +409,14 @@
                     <!-- Gráfico de tendencia -->
                     <div class="dashboard-card">
                         <h4>Tendencia de Precipitación</h4>
+                        <p class="chart-description">
+                            <strong>¿Qué puedes ver aquí?</strong><br>
+                            Este gráfico muestra la tendencia general de la precipitación usando un promedio móvil de 7 días. 
+                            La línea roja suaviza las variaciones diarias para revelar patrones a largo plazo. 
+                            <strong>Línea ascendente</strong> indica aumento en la precipitación, mientras que 
+                            <strong>línea descendente</strong> sugiere tendencia hacia la sequía. 
+                            Es fundamental para predecir futuros patrones climáticos.
+                        </p>
                         <div class="chart-container">
                             <canvas id="trendChart"></canvas>
                         </div>
