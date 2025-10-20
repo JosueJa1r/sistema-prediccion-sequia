@@ -193,6 +193,8 @@ def obtener_datos_dashboard(estado):
     except Exception as e:
         return jsonify({"error": True, "message": str(e)})
 
-# Para Vercel
-def handler(request):
-    return app(request.environ, lambda *args: None)
+# Para Railway/Heroku
+if __name__ == "__main__":
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=False)
