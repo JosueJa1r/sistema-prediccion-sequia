@@ -134,3 +134,6 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 ---
 
 **Nota**: Esta aplicación utiliza datos simulados para demostración. En un entorno de producción, se recomienda integrar con APIs meteorológicas reales.
+
+## 🚀 Despliegue en Vercel
+Esta aplicación está optimizada para funcionar en Vercel con la estructura `api/index.py`.
