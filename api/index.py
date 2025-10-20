@@ -2,7 +2,9 @@ from flask import Flask, jsonify, render_template, request
 from flask_cors import CORS
 import random
 
-app = Flask(__name__)
+app = Flask(__name__, 
+            template_folder='../templates',
+            static_folder='../static')
 CORS(app)
 
 # Datos históricos simulados
