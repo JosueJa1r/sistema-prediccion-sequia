@@ -1,13 +1,11 @@
-# Sistema de Predicción de Sequía - México
+# Sistema de Predicción de Sequía - Chihuahua
 
-Sistema inteligente de análisis de riesgo de sequía para todos los estados de México, basado en datos meteorológicos históricos y modelos matemáticos avanzados.
+Sistema inteligente de análisis de riesgo de sequía para los municipios del estado de Chihuahua, basado en datos meteorológicos históricos y modelos matemáticos avanzados.
 
 ## 🚀 Características
 
-- **Análisis Automático**: Evaluación de riesgo de sequía por estado
+- **Análisis por Municipio**: Evaluación de riesgo de sequía para cada municipio de Chihuahua.
 - **Modelos Matemáticos**: Cálculo diferencial, estadística y álgebra lineal
-- **Dashboard Interactivo**: Visualización de datos meteorológicos
-- **Datos Simulados**: Funciona sin dependencias de APIs externas
 - **Interfaz Moderna**: Diseño responsive con efectos visuales
 
 ## 🛠️ Tecnologías Utilizadas
@@ -78,43 +76,31 @@ Sistema inteligente de análisis de riesgo de sequía para todos los estados de 
 
 ## 🎯 Funcionalidades
 
-### Análisis por Estado
-- Selección de cualquier estado de México
+### Análisis por Municipio
+- Selección de cualquier municipio de Chihuahua.
 - Cálculo automático de riesgo de sequía
 - Clasificación: BAJO, MEDIO, ALTO
 
-### Dashboard de Datos
-- Precipitación diaria (últimos 90 días)
-- Gráficos semanales y tendencias
-- Estadísticas detalladas
-
 ### Recomendaciones
-- **Riesgo BAJO**: Monitoreo semanal
-- **Riesgo MEDIO**: Retrasar siembra o usar cultivos resistentes
-- **Riesgo ALTO**: Activar plan de contingencia
-
-## 🔧 Configuración
-
+- **
 ### Variables de Entorno
 No se requieren variables de entorno especiales. La aplicación funciona con datos simulados.
 
 ### Personalización
-- Modificar `coordenadas_estados` para agregar nuevos estados
+- Modificar el diccionario `municipios` para agregar o cambiar coordenadas.
 - Ajustar parámetros de riesgo en las funciones de análisis
 - Personalizar estilos en `static/style.css`
 
 ## 📊 API Endpoints
 
 - `GET /` - Página principal
-- `GET /api/analizar?estado=Chihuahua` - Análisis de riesgo
-- `GET /api/dashboard/<estado>` - Datos del dashboard
+- `GET /api/analizar?municipio=Chihuahua` - Análisis de riesgo por municipio.
 
 ## 🤝 Contribuciones
 
 1. Fork el proyecto
 2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeatur)re`)
 5. Abre un Pull Request
 
 ## 📝 Licencia

@@ -125,7 +125,6 @@ body {
 .results h3 {
     margin-top: 0;
     font-size: 24px;
-    border-bottom: 2px solid;
     padding-bottom: 10px;
     margin-bottom: 20px;
 }
@@ -142,29 +141,27 @@ body {
 }
 
 /* --- Estilos dinámicos para los niveles de riesgo --- */
-.risk-low {
-    background-color: #e9f7ef;
-    border-left: 5px solid #28a745;
-}
-.risk-low h3 {
-    color: #28a745;
-    border-bottom-color: #28a745;
-}
+/* D0 - Anormalmente Seco */
+.risk-d0 { background-color: #fefee2; border-left: 5px solid #fdfd96; }
+.risk-d0 h3 { color: #b3b36b; border-bottom-color: #fdfd96; }
+.risk-d0 p { color: #333; }
 
-.risk-medium {
-    background-color: #fff8e1;
-    border-left: 5px solid #ffc107;
-}
-.risk-medium h3 {
-    color: #ffc107;
-    border-bottom-color: #ffc107;
-}
+/* D1 - Sequía Moderada */
+.risk-d1 { background-color: #fff4e6; border-left: 5px solid #ffb347; }
+.risk-d1 h3 { color: #c9862e; border-bottom-color: #ffb347; }
+.risk-d1 p { color: #333; }
 
-.risk-high {
-    background-color: #fbeae5;
-    border-left: 5px solid #dc3545;
-}
-.risk-high h3 {
-    color: #dc3545;
-    border-bottom-color: #dc3545;
-}
+/* D2 - Sequía Severa */
+.risk-d2 { background-color: #ffeeed; border-left: 5px solid #ff6961; }
+.risk-d2 h3 { color: #c44a43; border-bottom-color: #ff6961; }
+.risk-d2 p { color: #333; }
+
+/* D3 - Sequía Extrema */
+.risk-d3 { background-color: #fbeae5; border-left: 5px solid #dc3545; }
+.risk-d3 h3 { color: #dc3545; border-bottom-color: #dc3545; }
+.risk-d3 p { color: #333; }
+
+/* D4 - Sequía Excepcional */
+.risk-d4 { background-color: #eedfe2; border-left: 5px solid #7A1A33; }
+.risk-d4 h3 { color: #7A1A33; border-bottom-color: #7A1A33; }
+.risk-d4 p { color: #333; }

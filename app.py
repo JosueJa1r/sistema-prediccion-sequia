@@ -49,16 +49,6 @@ def derivada_tendencia(datos):
 # -------------------------------------------------
 # 3. FUNCIÓN: ESTADÍSTICA MANUAL (Estadística)
 # -------------------------------------------------
-def media(datos):
-    """Calcula el promedio de una lista de números."""
-    return sum(datos) / len(datos) # Suma de los elementos dividida por la cantidad de elementos.
-
-def desviacion_estandar(datos):
-    """Calcula la desviación estándar de una lista de números."""
-    m = media(datos) # Primero calcula la media.
-    varianza = sum((x - m) ** 2 for x in datos) / len(datos) # Calcula la varianza.
-    return varianza ** 0.5 # La desviación estándar es la raíz cuadrada de la varianza.
-
 def regresion_lineal_simple(x, y):
     """
     Calcula los coeficientes de una regresión lineal simple (y = β0 + β1*x).
@@ -142,53 +132,88 @@ def modelo_algebra_lineal(precip_actual):
         return 0.5  # Devuelve un valor neutral como fallback.
 
 # -------------------------------------------------
-# 5. DATOS DE COORDENADAS DE ESTADOS MEXICANOS
+# 5. DATOS DE COORDENADAS DE MUNICIPIOS DE CHIHUAHUA
 # -------------------------------------------------
-coordenadas_estados = {
-    "Chihuahua": {"lat": 28.64, "lon": -106.09},
-    "Sonora": {"lat": 29.09, "lon": -110.95},
-    "Coahuila": {"lat": 27.30, "lon": -101.95},
-    "Nuevo León": {"lat": 25.67, "lon": -100.31},
-    "Tamaulipas": {"lat": 24.27, "lon": -98.84},
-    "Durango": {"lat": 24.02, "lon": -104.67},
-    "Zacatecas": {"lat": 22.77, "lon": -102.58},
-    "San Luis Potosí": {"lat": 22.15, "lon": -100.98},
-    "Aguascalientes": {"lat": 21.88, "lon": -102.29},
-    "Jalisco": {"lat": 20.66, "lon": -103.35},
-    "Guanajuato": {"lat": 21.02, "lon": -101.26},
-    "Querétaro": {"lat": 20.59, "lon": -100.39},
-    "Hidalgo": {"lat": 20.09, "lon": -98.76},
-    "México": {"lat": 19.43, "lon": -99.13},
-    "Puebla": {"lat": 19.04, "lon": -98.20},
-    "Tlaxcala": {"lat": 19.31, "lon": -98.24},
-    "Morelos": {"lat": 18.68, "lon": -99.10},
-    "Ciudad de México": {"lat": 19.43, "lon": -99.13},
-    "Veracruz": {"lat": 19.17, "lon": -96.13},
-    "Tabasco": {"lat": 17.84, "lon": -92.62},
-    "Campeche": {"lat": 19.85, "lon": -90.53},
-    "Yucatán": {"lat": 20.71, "lon": -89.09},
-    "Quintana Roo": {"lat": 19.18, "lon": -88.48},
-    "Chiapas": {"lat": 16.75, "lon": -93.11},
-    "Oaxaca": {"lat": 17.07, "lon": -96.72},
-    "Guerrero": {"lat": 17.44, "lon": -99.88},
-    "Michoacán": {"lat": 19.70, "lon": -101.19},
-    "Colima": {"lat": 19.24, "lon": -103.72},
-    "Nayarit": {"lat": 21.75, "lon": -104.85},
-    "Sinaloa": {"lat": 25.17, "lon": -107.49},
-    "Baja California": {"lat": 30.84, "lon": -115.28},
-    "Baja California Sur": {"lat": 26.04, "lon": -111.66}
+municipios = {
+    "Ahumada": {"lat": 30.58, "lon": -106.51},
+    "Aldama": {"lat": 28.83, "lon": -105.91},
+    "Allende": {"lat": 26.93, "lon": -105.41},
+    "Aquiles Serdán": {"lat": 28.55, "lon": -105.95},
+    "Ascensión": {"lat": 31.18, "lon": -107.98},
+    "Bachíniva": {"lat": 28.78, "lon": -107.26},
+    "Balleza": {"lat": 26.95, "lon": -106.38},
+    "Batopilas": {"lat": 27.02, "lon": -107.73},
+    "Bocoyna": {"lat": 27.75, "lon": -107.63},
+    "Buenaventura": {"lat": 29.83, "lon": -107.48},
+    "Camargo": {"lat": 27.68, "lon": -105.17},
+    "Carichí": {"lat": 27.93, "lon": -107.05},
+    "Casas Grandes": {"lat": 30.41, "lon": -107.95},
+    "Coronado": {"lat": 26.75, "lon": -105.18},
+    "Coyame del Sotol": {"lat": 29.68, "lon": -105.10},
+    "La Cruz": {"lat": 27.86, "lon": -105.20},
+    "Cuauhtémoc": {"lat": 28.40, "lon": -106.86},
+    "Cusihuiriachi": {"lat": 28.18, "lon": -106.78},
+    "Chihuahua": {"lat": 28.63, "lon": -106.08},
+    "Chínipas": {"lat": 27.39, "lon": -108.53},
+    "Delicias": {"lat": 28.19, "lon": -105.47},
+    "Dr. Belisario Domínguez": {"lat": 28.13, "lon": -106.58},
+    "Galeana": {"lat": 30.08, "lon": -107.63},
+    "Santa Isabel": {"lat": 28.38, "lon": -106.38},
+    "Gómez Farías": {"lat": 29.35, "lon": -107.73},
+    "Gran Morelos": {"lat": 28.25, "lon": -106.58},
+    "Guachochi": {"lat": 27.15, "lon": -107.28},
+    "Guadalupe": {"lat": 31.08, "lon": -105.88},
+    "Guadalupe y Calvo": {"lat": 26.09, "lon": -106.96},
+    "Guazapares": {"lat": 27.23, "lon": -108.28},
+    "Guerrero": {"lat": 28.55, "lon": -107.48},
+    "Hidalgo del Parral": {"lat": 26.93, "lon": -105.66},
+    "Huejotitán": {"lat": 27.03, "lon": -105.8},
+    "Ignacio Zaragoza": {"lat": 29.68, "lon": -107.73},
+    "Janos": {"lat": 30.88, "lon": -108.2},
+    "Jiménez": {"lat": 27.13, "lon": -104.91},
+    "Juárez": {"lat": 31.73, "lon": -106.48},
+    "Julimes": {"lat": 28.41, "lon": -105.41},
+    "López": {"lat": 26.98, "lon": -105.03},
+    "Madera": {"lat": 29.18, "lon": -108.15},
+    "Maguarichi": {"lat": 27.86, "lon": -107.93},
+    "Manuel Benavides": {"lat": 29.08, "lon": -104.13},
+    "Matachí": {"lat": 28.86, "lon": -107.73},
+    "Matamoros": {"lat": 26.73, "lon": -105.58},
+    "Meoqui": {"lat": 28.26, "lon": -105.48},
+    "Morelos": {"lat": 26.58, "lon": -107.7},
+    "Moris": {"lat": 28.1, "lon": -108.76},
+    "Namiquipa": {"lat": 29.25, "lon": -107.41},
+    "Nonoava": {"lat": 27.48, "lon": -106.71},
+    "Nuevo Casas Grandes": {"lat": 30.41, "lon": -107.91},
+    "Ocampo": {"lat": 28.0, "lon": -108.35},
+    "Ojinaga": {"lat": 29.56, "lon": -104.41},
+    "Praxedis G. Guerrero": {"lat": 31.36, "lon": -106.01},
+    "Riva Palacio": {"lat": 28.53, "lon": -106.63},
+    "Rosales": {"lat": 28.18, "lon": -105.56},
+    "Rosario": {"lat": 27.33, "lon": -106.33},
+    "San Francisco de Borja": {"lat": 27.93, "lon": -106.26},
+    "San Francisco de Conchos": {"lat": 27.58, "lon": -105.38},
+    "San Francisco del Oro": {"lat": 26.93, "lon": -105.85},
+    "Santa Bárbara": {"lat": 26.78, "lon": -105.81},
+    "Satevó": {"lat": 27.75, "lon": -106.25},
+    "Saucillo": {"lat": 28.0, "lon": -105.28},
+    "Temósachic": {"lat": 28.98, "lon": -108.03},
+    "El Tule": {"lat": 27.08, "lon": -105.98},
+    "Urique": {"lat": 27.21, "lon": -107.91},
+    "Uruachi": {"lat": 27.86, "lon": -108.21},
+    "Valle de Zaragoza": {"lat": 27.46, "lon": -105.81}
 }
 
 # -------------------------------------------------
 # 6. FUNCIÓN PARA OBTENER DATOS REALES POR ESTADO
 # -------------------------------------------------
-def obtener_pronostico_precipitacion(estado="Chihuahua"):
-    """Obtiene los datos históricos de precipitación de los últimos 90 días desde Open-Meteo para un estado específico."""
-    if estado not in coordenadas_estados:
-        raise ValueError(f"Estado '{estado}' no encontrado en la base de datos.")
+def obtener_datos_meteorologicos(municipio="Chihuahua"):
+    """Obtiene los datos históricos de precipitación y humedad del suelo de los últimos 90 días desde Open-Meteo."""
+    if municipio not in municipios:
+        raise ValueError(f"Municipio '{municipio}' no encontrado en la base de datos.")
     
-    coords = coordenadas_estados[estado]
-    print(f"Obteniendo datos históricos de precipitación para {estado}...") # Mensaje informativo.
+    coords = municipios[municipio]
+    print(f"Obteniendo datos meteorológicos para {municipio}...") # Mensaje informativo.
     
     # Configura una sesión con caché (para no pedir los mismos datos repetidamente) y reintentos.
     sesion_cache = requests_cache.CachedSession('.cache', expire_after=3600)
@@ -203,37 +228,63 @@ def obtener_pronostico_precipitacion(estado="Chihuahua"):
     fecha_inicio = fecha_final - timedelta(days=89) # Hace 90 días.
 
     # Parámetros para la solicitud a la API.
-    parametros = {
-        "latitude": coords["lat"], # Latitud del estado.
-        "longitude": coords["lon"], # Longitud del estado.
+    params = {
+        "latitude": coords["lat"], # Latitud del municipio.
+        "longitude": coords["lon"], # Longitud del municipio.
         "start_date": fecha_inicio.strftime('%Y-%m-%d'), # Fecha de inicio formateada.
         "end_date": fecha_final.strftime('%Y-%m-%d'), # Fecha de fin formateada.
-        "daily": "precipitation_sum", # Pedimos la suma de precipitación diaria.
+        "daily": "precipitation_sum,soil_moisture_0_to_7cm", # Pedimos precipitación y humedad del suelo.
     }
     # Realiza la llamada a la API.
-    respuestas = openmeteo.weather_api(url, params=parametros)
+    respuestas = openmeteo.weather_api(url, params=params)
     respuesta = respuestas[0] # Procesa la primera (y única) ubicación de la respuesta.
+
+    # --- Procesamiento de la respuesta ---
+    # Es crucial procesar las variables en el orden correcto
+    # y asegurarse de que los tipos de datos son compatibles.
+    pd.to_datetime(respuesta.Daily().Time(), unit = "s")
 
     # Extrae los datos de precipitación.
     datos_diarios = respuesta.Daily() # Accede a la sección de datos diarios.
     precipitacion_diaria = datos_diarios.Variables(0).ValuesAsNumpy() # Obtiene los valores como un array de numpy.
-
-    # Agrupa la precipitación diaria en 3 bloques mensuales (aproximadamente 30 días cada uno).
-    mes1 = sum(precipitacion_diaria[0:30]) # Suma de los primeros 30 días.
-    mes2 = sum(precipitacion_diaria[30:60]) # Suma de los siguientes 30 días.
-    mes3 = sum(precipitacion_diaria[60:90]) # Suma de los últimos 30 días.
+    humedad_suelo_diaria = datos_diarios.Variables(1).ValuesAsNumpy()
     
-    print(f"Precipitación mensual histórica para {estado} (mm): Mes 1={mes1:.1f}, Mes 2={mes2:.1f}, Mes 3={mes3:.1f}") # Muestra los datos obtenidos.
-    return [mes1, mes2, mes3] # Devuelve una lista con los 3 valores mensuales.
+    # Para el dashboard, también necesitamos la temperatura. La obtenemos aquí para evitar otra llamada a la API.
+    # NOTA: Esto requiere que la llamada a la API pida 'temperature_2m_mean'.
+    # Vamos a modificar los parámetros para incluirla siempre.
+    params["daily"] = "precipitation_sum,soil_moisture_0_to_7cm,temperature_2m_mean"
+    respuestas = openmeteo.weather_api(url, params=params)
+    respuesta = respuestas[0]
+    precipitacion_diaria = respuesta.Daily().Variables(0).ValuesAsNumpy()
+    humedad_suelo_diaria = respuesta.Daily().Variables(1).ValuesAsNumpy()
+    temperatura_diaria = respuesta.Daily().Variables(2).ValuesAsNumpy()
+
+    precipitacion_mensual = [
+        sum(precipitacion_diaria[0:30]),
+        sum(precipitacion_diaria[30:60]),
+        sum(precipitacion_diaria[60:90])
+    ]
+    
+    humedad_promedio_ultimo_mes = sum(humedad_suelo_diaria[60:90]) / 30
+    
+    return {
+        "precipitacion_mensual": precipitacion_mensual,
+        "humedad_promedio": humedad_promedio_ultimo_mes,
+        "precipitacion_diaria": precipitacion_diaria,
+        "fechas_diarias": [(fecha_inicio + timedelta(days=i)).strftime('%Y-%m-%d') for i in range(90)],
+        "temperatura_diaria": temperatura_diaria
+    }
 
 
 # -------------------------------------------------
 # 6. FUNCIÓN PRINCIPAL: HERRAMIENTA DIGITAL
 # -------------------------------------------------
-def main(estado="Chihuahua"):
+def analizar_riesgo(municipio):
     """Orquesta el análisis y devuelve los resultados como un diccionario."""
     try:
-        precip_reciente = obtener_pronostico_precipitacion(estado)
+        datos_meteo = obtener_datos_meteorologicos(municipio) # Usar la función completa que obtiene todos los datos
+        precip_reciente = datos_meteo.get("precipitacion_mensual", [])
+        humedad_actual = datos_meteo["humedad_promedio"]
         p3 = precip_reciente[-1]
     except Exception as e:
         # Si falla, devuelve un diccionario de error.
@@ -242,37 +293,47 @@ def main(estado="Chihuahua"):
     tendencia = derivada_tendencia(precip_reciente)
     prediccion_estadistica = beta0 + beta1 * p3
     prediccion_algebra = modelo_algebra_lineal(p3)
+    riesgo_humedad = max(0, min(1, (0.2 - humedad_actual) / 0.2))
 
     # Convertimos la tendencia en un componente de riesgo entre 0 y 1.
     riesgo_tendencia = max(0, min(1, -tendencia / 10))
 
     # Promedio ponderado (dando más peso a la tendencia)
-    riesgo = (0.4 * riesgo_tendencia + 0.3 * prediccion_estadistica + 0.3 * prediccion_algebra)
+    riesgo = (0.3 * riesgo_tendencia + 0.25 * prediccion_estadistica + 0.25 * prediccion_algebra + 0.2 * riesgo_humedad)
 
-    if riesgo < 0.3:
-        nivel = "BAJO"
-        accion = "Monitoree el pronóstico semanal."
-        className = "risk-low"
-    elif riesgo < 0.7:
-        nivel = "MEDIO"
-        accion = "Retrase la siembra 15 días o use cultivos resistentes a sequía."
-        className = "risk-medium"
+    if riesgo < 0.2:
+        nivel = "Anormalmente Seco (D0)"
+        accion = "Condición de sequedad. Puede ocasionar retraso en la siembra, limitado crecimiento de cultivos y riesgo de incendios."
+        className = "risk-d0"
+    elif riesgo < 0.4:
+        nivel = "Sequía Moderada (D1)"
+        accion = "Daños en cultivos/pastos, alto riesgo de incendios y bajos niveles en ríos. Se sugiere restricción voluntaria en el uso del agua."
+        className = "risk-d1"
+    elif riesgo < 0.6:
+        nivel = "Sequía Severa (D2)"
+        accion = "Pérdidas probables en cultivos/pastos, escasez de agua común. Se deben imponer restricciones en el uso del agua."
+        className = "risk-d2"
+    elif riesgo < 0.8:
+        nivel = "Sequía Extrema (D3)"
+        accion = "Pérdidas mayores en cultivos/pastos, riesgo extremo de incendios. Se generalizan las restricciones en el uso del agua."
+        className = "risk-d3"
     else:
-        nivel = "ALTO"
-        accion = "¡ALERTA! Active plan de contingencia: almacene agua y forraje."
-        className = "risk-high"
+        nivel = "Sequía Excepcional (D4)"
+        accion = "Pérdidas excepcionales y generalizadas, escasez total de agua. Probable situación de emergencia."
+        className = "risk-d4"
 
     # Devuelve un diccionario con todos los resultados, listo para ser convertido a JSON.
     # Convertir todos los valores float32 a float para serialización JSON
     return {
-        "estado": estado,
+        "municipio": municipio,
         "nivel": nivel,
         "accion": accion,
         "className": className,
         "riesgo": float(riesgo),
         "riesgoTendencia": float(riesgo_tendencia),
         "prediccionEstadistica": float(prediccion_estadistica),
-        "prediccionAlgebra": float(prediccion_algebra)
+        "prediccionAlgebra": float(prediccion_algebra),
+        "riesgoHumedad": float(riesgo_humedad)
     }
 
 # -------------------------------------------------
@@ -287,131 +348,27 @@ def index():
 
 @app.route('/api/analizar', methods=['GET']) # Define la ruta de la API.
 def analizar_api():
-    estado = request.args.get('estado', 'Chihuahua') # Obtiene el estado del parámetro de consulta
-    resultados = main(estado) # Ejecuta el análisis para el estado especificado.
+    municipio = request.args.get('municipio', 'Chihuahua') # Obtiene el municipio del parámetro de consulta
+    resultados = analizar_riesgo(municipio) # Ejecuta el análisis para el municipio especificado.
     return jsonify(resultados) # Devuelve los resultados como JSON.
 
-@app.route('/api/dashboard/<estado>', methods=['GET']) # Nueva ruta para datos del dashboard.
-def obtener_datos_dashboard(estado):
-    """Obtiene datos detallados para el dashboard de un estado específico."""
-    try:
-        if estado not in coordenadas_estados:
-            return jsonify({"error": True, "message": f"Estado '{estado}' no encontrado"})
-        
-        coords = coordenadas_estados[estado]
-        
-        # Configura una sesión con caché
-        sesion_cache = requests_cache.CachedSession('.cache', expire_after=3600)
-        sesion_reintentos = retry(sesion_cache, retries=5, backoff_factor=0.2)
-        openmeteo = openmeteo_requests.Client(session=sesion_reintentos)
+@app.route('/api/dashboard/<municipio>', methods=['GET']) # Nueva ruta para datos del dashboard.
+def obtener_datos_dashboard(municipio):
+    """Obtiene datos detallados para el dashboard de un municipio específico."""
+    # Reutilizamos la función principal para obtener todos los datos de una vez.
+    # Esto evita hacer una segunda llamada a la API y asegura consistencia.
+    datos_meteo = obtener_datos_meteorologicos(municipio)
+    if "error" in datos_meteo:
+        return jsonify(datos_meteo)
 
-        # URL de la API de Open-Meteo para datos históricos.
-        url = "https://archive-api.open-meteo.com/v1/archive"
-        
-        # Calcula el rango de fechas: desde hace 90 días hasta ayer.
-        fecha_final = date.today() - timedelta(days=1)
-        fecha_inicio = fecha_final - timedelta(days=89)
-
-        # Parámetros para la solicitud a la API.
-        parametros = {
-            "latitude": coords["lat"],
-            "longitude": coords["lon"],
-            "start_date": fecha_inicio.strftime('%Y-%m-%d'),
-            "end_date": fecha_final.strftime('%Y-%m-%d'),
-            "daily": "precipitation_sum",
-        }
-        
-        # Realiza la llamada a la API.
-        respuestas = openmeteo.weather_api(url, params=parametros)
-        respuesta = respuestas[0]
-
-        # Extrae los datos de precipitación.
-        datos_diarios = respuesta.Daily()
-        precipitacion_diaria = datos_diarios.Variables(0).ValuesAsNumpy()
-        
-        # Genera fechas para los últimos 90 días
-        fechas = [(fecha_inicio + timedelta(days=i)).strftime('%Y-%m-%d') for i in range(90)]
-        
-        # Agrupa datos por semanas (7 días cada una)
-        datos_semanales = []
-        for i in range(0, 90, 7):
-            semana_precip = sum(precipitacion_diaria[i:i+7])
-            semana_fecha = fechas[i]
-            datos_semanales.append({
-                "fecha": semana_fecha,
-                "precipitacion": float(semana_precip)
-            })
-        
-        # Calcula estadísticas
-        precipitacion_total = float(sum(precipitacion_diaria))
-        precipitacion_promedio = float(precipitacion_total / 90)
-        precipitacion_maxima = float(max(precipitacion_diaria))
-        dias_sin_lluvia = int(sum(1 for p in precipitacion_diaria if p == 0))
-        
-        return jsonify({
-            "estado": estado,
-            "datos_diarios": [{"fecha": fechas[i], "precipitacion": float(precipitacion_diaria[i])} for i in range(90)],
-            "datos_semanales": datos_semanales,
-            "estadisticas": {
-                "precipitacion_total": precipitacion_total,
-                "precipitacion_promedio": precipitacion_promedio,
-                "precipitacion_maxima": precipitacion_maxima,
-                "dias_sin_lluvia": dias_sin_lluvia,
-                "periodo": f"{fecha_inicio.strftime('%Y-%m-%d')} a {fecha_final.strftime('%Y-%m-%d')}"
-            }
-        })
-        
-    except Exception as e:
-        return jsonify({"error": True, "message": str(e)})
-
-@app.route('/api/analizar-manual', methods=['POST']) # Nueva ruta para análisis manual.
-def analizar_manual_api():
-    try:
-        datos = request.get_json()
-        precipitacion_manual = datos.get('precipitacion', [])
-        
-        if len(precipitacion_manual) != 3:
-            return jsonify({"error": True, "message": "Se requieren exactamente 3 valores de precipitación"})
-        
-        # Usar los datos manuales para el análisis
-        p3 = precipitacion_manual[-1]  # Último mes
-        
-        tendencia = derivada_tendencia(precipitacion_manual)
-        prediccion_estadistica = beta0 + beta1 * p3
-        prediccion_algebra = modelo_algebra_lineal(p3)
-        
-        # Convertimos la tendencia en un componente de riesgo entre 0 y 1.
-        riesgo_tendencia = max(0, min(1, -tendencia / 10))
-        
-        # Promedio ponderado (dando más peso a la tendencia)
-        riesgo = (0.4 * riesgo_tendencia + 0.3 * prediccion_estadistica + 0.3 * prediccion_algebra)
-        
-        if riesgo < 0.3:
-            nivel = "BAJO"
-            accion = "Monitoree el pronóstico semanal."
-            className = "risk-low"
-        elif riesgo < 0.7:
-            nivel = "MEDIO"
-            accion = "Retrase la siembra 15 días o use cultivos resistentes a sequía."
-            className = "risk-medium"
-        else:
-            nivel = "ALTO"
-            accion = "¡ALERTA! Active plan de contingencia: almacene agua y forraje."
-            className = "risk-high"
-        
-        return jsonify({
-            "nivel": nivel,
-            "accion": accion,
-            "className": className,
-            "riesgo": float(riesgo),
-            "riesgoTendencia": float(riesgo_tendencia),
-            "prediccionEstadistica": float(prediccion_estadistica),
-            "prediccionAlgebra": float(prediccion_algebra),
-            "datos_usados": precipitacion_manual
-        })
-        
-    except Exception as e:
-        return jsonify({"error": True, "message": str(e)})
+    # Preparamos los datos en el formato que el frontend espera.
+    datos_dispersion = [{"x": float(temp), "y": float(precip)} for temp, precip in zip(datos_meteo["temperatura_diaria"], datos_meteo["precipitacion_diaria"])]
+    datos_lineas = [{"fecha": f, "precipitacion": float(p)} for f, p in zip(datos_meteo["fechas_diarias"], datos_meteo["precipitacion_diaria"])]
+    
+    return jsonify({
+        "datos_dispersion": datos_dispersion,
+        "datos_lineas": datos_lineas
+    })
 
 if __name__ == "__main__": # Si el script se ejecuta directamente...
     app.run(debug=True, port=5001) # Inicia el servidor Flask en el puerto 5001.
