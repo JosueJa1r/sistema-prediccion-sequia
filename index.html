@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Predicción de Sequía</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Predicción de Sequía</h1>
+            <p>Sistema de análisis meteorológico en Chihuahua</p>
+        </div>
+
+        <form id="analyzeForm">
+            <div class="form-group">
+                <label for="municipio">Selecciona un municipio:</label>
+                <select id="municipio" required>
+                    <option value="">-- Elige un municipio --</option>
+                    <option value="Ahumada">Ahumada</option>
+                    <option value="Aldama">Aldama</option>
+                    <option value="Allende">Allende</option>
+                    <option value="Aquiles Serdán">Aquiles Serdán</option>
+                    <option value="Ascensión">Ascensión</option>
+                    <option value="Bachíniva">Bachíniva</option>
+                    <option value="Balleza">Balleza</option>
+                    <option value="Batopilas de Manuel Gómez Morín">Batopilas de Manuel Gómez Morín</option>
+                    <option value="Bocoyna">Bocoyna</option>
+                    <option value="Buenaventura">Buenaventura</option>
+                    <option value="Camargo">Camargo</option>
+                    <option value="Carichí">Carichí</option>
+                    <option value="Casas Grandes">Casas Grandes</option>
+                    <option value="Chihuahua">Chihuahua</option>
+                    <option value="Chínipas">Chínipas</option>
+                    <option value="Coronado">Coronado</option>
+                    <option value="Coyame del Sotol">Coyame del Sotol</option>
+                    <option value="Cuauhtémoc">Cuauhtémoc</option>
+                    <option value="Cusihuiriachi">Cusihuiriachi</option>
+                    <option value="Delicias">Delicias</option>
+                    <option value="Dr. Belisario Domínguez">Dr. Belisario Domínguez</option>
+                    <option value="El Tule">El Tule</option>
+                    <option value="Galeana">Galeana</option>
+                    <option value="Gómez Farías">Gómez Farías</option>
+                    <option value="Gran Morelos">Gran Morelos</option>
+                    <option value="Guachochi">Guachochi</option>
+                    <option value="Guadalupe D.B.">Guadalupe D.B.</option>
+                    <option value="Guadalupe y Calvo">Guadalupe y Calvo</option>
+                    <option value="Guazapares">Guazapares</option>
+                    <option value="Guerrero">Guerrero</option>
+                    <option value="Hidalgo del Parral">Hidalgo del Parral</option>
+                    <option value="Huejotitán">Huejotitán</option>
+                    <option value="Ignacio Zaragoza">Ignacio Zaragoza</option>
+                    <option value="Janos">Janos</option>
+                    <option value="Jiménez">Jiménez</option>
+                    <option value="Juárez">Juárez</option>
+                    <option value="Julimes">Julimes</option>
+                    <option value="La Cruz">La Cruz</option>
+                    <option value="López">López</option>
+                    <option value="Madera">Madera</option>
+                    <option value="Maguarichi">Maguarichi</option>
+                    <option value="Manuel Benavides">Manuel Benavides</option>
+                    <option value="Matachí">Matachí</option>
+                    <option value="Matamoros">Matamoros</option>
+                    <option value="Meoqui">Meoqui</option>
+                    <option value="Morelos">Morelos</option>
+                    <option value="Moris">Moris</option>
+                    <option value="Namiquipa">Namiquipa</option>
+                    <option value="Nonoava">Nonoava</option>
+                    <option value="Nuevo Casas Grandes">Nuevo Casas Grandes</option>
+                    <option value="Ocampo">Ocampo</option>
+                    <option value="Ojinaga">Ojinaga</option>
+                    <option value="Praxédis G. Guerrero">Praxédis G. Guerrero</option>
+                    <option value="Riva Palacio">Riva Palacio</option>
+                    <option value="Rosales">Rosales</option>
+                    <option value="Rosario">Rosario</option>
+                    <option value="San Francisco de Borja">San Francisco de Borja</option>
+                    <option value="San Francisco de Conchos">San Francisco de Conchos</option>
+                    <option value="San Francisco del Oro">San Francisco del Oro</option>
+                    <option value="Santa Bárbara">Santa Bárbara</option>
+                    <option value="Satevó">Satevó</option>
+                    <option value="Saucillo">Saucillo</option>
+                    <option value="Santa Isabel">Santa Isabel</option>
+                    <option value="Temosachic">Temosachic</option>
+                    <option value="Urique">Urique</option>
+                    <option value="Uruachi">Uruachi</option>
+                    <option value="Valle de Zaragoza">Valle de Zaragoza</option>
+                </select>
+            </div>
+
+            <button type="submit">Analizar Sequía</button>
+
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Consultando datos meteorológicos...</p>
+            </div>
+        </form>
+
+        <div class="error" id="error"></div>
+
+        <div class="result" id="result">
+            <h2 id="resultTitle">Análisis para <span id="municipioName"></span></h2>
+
+            <div class="result-item">
+                <span class="result-label">Índice de Sequía:</span>
+                <span class="result-value" id="indiceValue">--</span>
+            </div>
+
+            <div class="result-item">
+                <span class="result-label">Categoría:</span>
+                <span class="result-value" id="nivelValue">--</span>
+            </div>
+
+            <div class="datos-clima">
+                <h3>Datos Climáticos (Promedio últimos 90 días)</h3>
+                <div class="grid-datos">
+                    <div class="dato-mini">
+                        <div class="dato-mini-label">Precipitación</div>
+                        <div class="dato-mini-value" id="precipValue">-- mm</div>
+                    </div>
+                    <div class="dato-mini">
+                        <div class="dato-mini-label">Temperatura</div>
+                        <div class="dato-mini-value" id="tempValue">-- °C</div>
+                    </div>
+                    <div class="dato-mini">
+                        <div class="dato-mini-label">Evapotranspiración</div>
+                        <div class="dato-mini-value" id="evapValue">-- mm</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráficas -->
+            <div class="charts">
+                <h3>Gráficas</h3>
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <canvas id="chartLine" width="400" height="200"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <canvas id="chartScatter" width="400" height="200"></canvas>
+                    </div>
+                    <div class="chart-card">
+                        <canvas id="chartBar" width="400" height="200"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="static/script.js"></script>
+</body>
+</html>

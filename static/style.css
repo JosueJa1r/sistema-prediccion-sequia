@@ -1,90 +1,113 @@
-/* --- Estilos Generales --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    /* Se usa una superposición oscura sobre la imagen para mejorar la legibilidad del texto */
-    background-image: linear-gradient(rgba(28, 35, 44, 0.85), rgba(28, 35, 44, 0.85)), url('/static/img2.png');
-    background-size: cover; /* La imagen cubre toda la pantalla */
-    background-position: center; /* La imagen está centrada */
-    background-attachment: fixed; /* El fondo no se mueve al hacer scroll */
-    color: #e0e0e0; /* Color de texto claro para contraste */
-    margin: 0;
-    padding: 20px;
+    background: linear-gradient(135deg, rgba(139, 38, 50, 0.85) 0%, rgba(204, 163, 71, 0.85) 100%), url('/static/logo.png') center/cover no-repeat fixed;
+    background-blend-mode: overlay;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
+    align-items: center;
+    padding: 20px;
 }
 
 .container {
-    /* --- Efecto Frosted Glass --- */
-    background-color: rgba(35, 45, 60, 0.7); /* Fondo semitransparente */
-    backdrop-filter: blur(10px); /* El filtro que crea el desenfoque */
-    -webkit-backdrop-filter: blur(10px); /* Para compatibilidad con Safari */
-    border: 1px solid rgba(255, 255, 255, 0.15); /* Borde sutil para definir el contenedor */
-    padding: 30px 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada para el efecto 3D */
-    max-width: 800px;
+    background: rgb(250, 238, 221);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
     width: 100%;
-    text-align: center;
+    padding: 40px;
 }
 
-/* --- Encabezado --- */
+.header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
 .header h1 {
-    color: #ffffff; /* Cambiado a blanco para mejor contraste */
+    font-size: 2.5em;
+    color: rgb(139, 38, 50);
     margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
 .header p {
-    color: #d0d0d0; /* Cambiado a gris claro */
-    margin-bottom: 30px;
+    color: #666;
+    font-size: 1.1em;
 }
 
-/* --- Formulario y Botón --- */
-.form-section {
-    margin-bottom: 30px;
+.form-group {
+    margin-bottom: 25px;
 }
 
-.form-group label {
+label {
     display: block;
-    margin-bottom: 20px;
-    color: #d0d0d0; /* Cambiado a gris claro */
-    line-height: 1.6;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 600;
+    font-size: 1.05em;
 }
 
-.btn {
-    background-color: #9F2241;
+select, input[type="text"], input[type="email"] {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+}
+
+select:focus, input:focus {
+    outline: none;
+    border-color: rgb(139, 38, 50);
+    box-shadow: 0 0 0 3px rgba(139, 38, 50, 0.1);
+}
+
+button {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, rgb(139, 38, 50) 0%, #CCA347 100%);
     color: white;
     border: none;
-    padding: 12px 25px;
     border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
+    font-size: 1.1em;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    margin: 5px;
+    transition: all 0.3s ease;
 }
 
-.btn:hover {
-    background-color: #7A1A33;
+button:hover {
     transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(139, 38, 50, 0.3);
 }
 
-.btn:disabled {
-    background-color: #cccccc;
-    cursor: not-allowed;
+button:active {
+    transform: translateY(0);
 }
 
-/* --- Indicador de Carga (Spinner) --- */
-.loader {
+.loading {
+    display: none;
+    text-align: center;
+    color: rgb(139, 38, 50);
+    font-weight: 600;
+}
+
+.spinner {
     border: 4px solid #f3f3f3;
-    border-top: 4px solid #9F2241;
+    border-top: 4px solid rgb(139, 38, 50);
     border-radius: 50%;
     width: 40px;
     height: 40px;
     animation: spin 1s linear infinite;
-    margin: 20px auto;
-    display: none; /* Oculto por defecto */
+    margin: 0 auto 15px;
 }
 
 @keyframes spin {
@@ -92,76 +115,225 @@ body {
     100% { transform: rotate(360deg); }
 }
 
-/* --- Contenedor de Salida (Resultados + Mapa) --- */
-.output-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    align-items: flex-start;
-    width: 100%;
-}
-
-/* --- Sección de Resultados --- */
-.results {
-    padding: 25px;
-    border-radius: 8px;
-    text-align: left;
-    border: 1px solid rgba(255, 255, 255, 0.1); /* Borde sutil para el modo oscuro */
-    display: none; /* Oculto hasta que haya resultados */
-    flex: 1; /* Ocupa el espacio disponible */
-    min-width: 280px; /* Ancho mínimo para que no se comprima demasiado */
-}
-
-/* --- Contenedor del Mapa --- */
-#map {
-    height: 400px;
+.result {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgb(250, 238, 221);
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.1); /* Borde sutil para el modo oscuro */
-    display: none; /* Oculto por defecto */
-    flex: 1;
-    min-width: 280px;
+    border-left: 5px solid rgb(139, 38, 50);
+    display: none;
 }
 
-.results h3 {
-    margin-top: 0;
-    font-size: 24px;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
+.result.show {
+    display: block;
+    animation: slideIn 0.3s ease;
 }
 
-.results p {
-    color: #333; /* Color de texto oscuro para contraste en tarjetas claras */
-    font-size: 16px;
-    line-height: 1.7;
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.results .accion {
-    font-weight: bold;
+.result h2 {
+    color: rgb(139, 38, 50);
+    margin-bottom: 15px;
+    font-size: 1.4em;
+}
+
+.result-item {
+    margin: 12px 0;
+    padding: 10px;
+    background: rgb(250, 238, 221);
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.result-label {
+    font-weight: 600;
+    color: #333;
+}
+
+.result-value {
+    color: rgb(139, 38, 50);
+    font-weight: 700;
+    font-size: 1.1em;
+}
+
+/* Categorías USDM de sequía (D0-D4) */
+.nivel-d0 {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.nivel-d1 {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.nivel-d2 {
+    background-color: #ffe5cc;
+    color: #cc5200;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.nivel-d3 {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.nivel-d4 {
+    background-color: #6c1f1f;
+    color: #ffffff;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+/* Estilos antiguos (compatibilidad hacia atrás) */
+.nivel-bajo {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.nivel-moderado {
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.nivel-alto {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.nivel-crítico {
+    background-color: #f5c6cb;
+    color: #721c24;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.error {
+    background: rgb(250, 238, 221);
+    border: 2px solid rgb(139, 38, 50);
+    color: rgb(139, 38, 50);
+    padding: 15px;
+    border-radius: 8px;
     margin-top: 15px;
+    display: none;
 }
 
-/* --- Estilos dinámicos para los niveles de riesgo --- */
-/* D0 - Anormalmente Seco */
-.risk-d0 { background-color: #fefee2; border-left: 5px solid #fdfd96; }
-.risk-d0 h3 { color: #b3b36b; border-bottom-color: #fdfd96; }
-.risk-d0 p { color: #333; }
+.error.show {
+    display: block;
+}
 
-/* D1 - Sequía Moderada */
-.risk-d1 { background-color: #fff4e6; border-left: 5px solid #ffb347; }
-.risk-d1 h3 { color: #c9862e; border-bottom-color: #ffb347; }
-.risk-d1 p { color: #333; }
+.datos-clima {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 2px solid #ddd;
+}
 
-/* D2 - Sequía Severa */
-.risk-d2 { background-color: #ffeeed; border-left: 5px solid #ff6961; }
-.risk-d2 h3 { color: #c44a43; border-bottom-color: #ff6961; }
-.risk-d2 p { color: #333; }
+.datos-clima h3 {
+    color: #764ba2;
+    margin-bottom: 10px;
+    font-size: 1em;
+}
 
-/* D3 - Sequía Extrema */
-.risk-d3 { background-color: #fbeae5; border-left: 5px solid #dc3545; }
-.risk-d3 h3 { color: #dc3545; border-bottom-color: #dc3545; }
-.risk-d3 p { color: #333; }
+.grid-datos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
 
-/* D4 - Sequía Excepcional */
-.risk-d4 { background-color: #eedfe2; border-left: 5px solid #7A1A33; }
-.risk-d4 h3 { color: #7A1A33; border-bottom-color: #7A1A33; }
-.risk-d4 p { color: #333; }
+.dato-mini {
+    background: rgb(250, 238, 221);
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.dato-mini-label {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+.dato-mini-value {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: rgb(139, 38, 50);
+}
+
+/* Gráficas */
+.charts {
+    margin-top: 20px;
+}
+.charts-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* una columna: apilar gráficas verticalmente */
+    gap: 20px; /* más separación vertical */
+    margin-top: 10px;
+}
+.chart-card {
+    background: rgb(250, 238, 221);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.chart-card canvas {
+    width: 100% !important;
+    height: 200px !important;
+}
+
+/* Fijar anchos solo en computadoras (pantallas grandes) */
+@media (min-width: 900px) {
+    .container {
+        width: 1100px; /* ancho fijo en desktop para más espacio */
+        max-width: none;
+    }
+
+    /* Mantener apilado en desktop: una gráfica por fila para mejor lectura */
+    .charts-grid {
+        grid-template-columns: 1fr; /* seguir apilando verticalmente */
+        gap: 28px; /* más espacio vertical en desktop */
+    }
+
+    .chart-card {
+        padding: 16px;
+    }
+
+    .chart-card canvas {
+        height: 360px !important; /* mayor altura en desktop para mejor visibilidad */
+    }
+}
+
+/* Responsive rules removed as requested */

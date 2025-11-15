@@ -1,125 +1,142 @@
 # Sistema de Predicción de Sequía - Chihuahua
 
-Sistema inteligente de análisis de riesgo de sequía para los municipios del estado de Chihuahua, basado en datos meteorológicos históricos y modelos matemáticos avanzados.
+Sistema de análisis de sequía para municipios de Chihuahua utilizando datos de Open-Meteo. Implementa modelos matemáticos en **Python puro** (sin NumPy) para clasificar sequía según categorías USDM (D0–D4).
 
-## 🚀 Características
+## Instalación
 
-- **Análisis por Municipio**: Evaluación de riesgo de sequía para cada municipio de Chihuahua.
-- **Modelos Matemáticos**: Cálculo diferencial, estadística y álgebra lineal
-- **Interfaz Moderna**: Diseño responsive con efectos visuales
+```bash
+pip install -r requirements.txt
+```
 
-## 🛠️ Tecnologías Utilizadas
+**Dependencias:**
+- Flask==2.3.3
+- Flask-Cors==4.0.0  
+- requests>=2.31.0
 
-- **Backend**: Python, Flask
-- **Frontend**: HTML5, CSS3, JavaScript, Chart.js
-- **Matemáticas**: Cálculo diferencial, regresión lineal, álgebra lineal
-- **Visualización**: Gráficos interactivos con Chart.js
+## Cómo Ejecutar
 
-## 📋 Requisitos
+### 1. Servidor Web
+```powershell
+py api.py
+```
+Accede a: **http://127.0.0.1:5000**
 
-- Python 3.7+
-- Flask
-- Flask-CORS
+### 2. Módulo CLI
+```powershell
+py analisis_sequia.py --precip 12 --temp 30 --marg 0.8 --json
+```
 
-## 🚀 Instalación y Uso
+### 3. Análisis de Municipios
+```powershell
+py analizar_municipios.py
+```
 
-1. **Clonar el repositorio**:
-   ```bash
-   git clone https://github.com/tu-usuario/sistema-prediccion-sequia.git
-   cd sistema-prediccion-sequia
-   ```
+## Endpoints de la API
 
-2. **Instalar dependencias**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+### `GET /api/municipios`
+Lista de todos los municipios de Chihuahua.
 
-3. **Ejecutar la aplicación**:
-   ```bash
-   python app_working.py
-   ```
+### `GET /api/analizar?municipio=Chihuahua`
+Análisis de sequía para un municipio.
 
-4. **Abrir en el navegador**:
-   ```
-   http://localhost:5001
-   ```
+**Parámetros:**
+- `municipio` (required): Nombre del municipio
+- `marg` (optional): Índice de marginación (0-1)
 
-## 📁 Estructura del Proyecto
+**Respuesta:**
+```json
+{
+  "municipio": "Chihuahua",
+  "indice_sequia": 78.0,
+  "categoria": "D3",
+  "nombre_categoria": "Sequía Extrema",
+  "datos": {
+    "precipitacion_promedio": 2.1,
+    "temperatura_promedio": 20.5,
+    "evapotranspiracion_promedio": 4.8
+  }
+}
+```
+
+## Modelos Matemáticos
+
+### 1. Índice de Sequía Ponderado
+
+$$I_{sequia} = 0.6 \cdot (1 - P_{norm}) + 0.2 \cdot T_{norm} + 0.2 \cdot E_{norm}$$
+
+**Pesos:**
+- 60% Precipitación
+- 20% Temperatura
+- 20% Evapotranspiración
+
+### 2. Normalización (Min-Max)
+
+```python
+normalized = [(x - min_val) / (max_val - min_val + 1e-10) for x in datos]
+```
+
+### 3. Clasificación USDM
+
+| Categoría | Umbral      | Descripción       |
+|-----------|-------------|-------------------|
+| D0        | < 0.35      | Anormalmente Seco |
+| D1        | 0.35–0.50   | Sequía Moderada   |
+| D2        | 0.50–0.65   | Sequía Severa     |
+| D3        | 0.65–0.80   | Sequía Extrema    |
+| D4        | ≥ 0.80      | Sequía Excepcional|
+
+### 4. Modelo Predictivo Híbrido
+
+Combina:
+- **Tendencia:** $P_t - P_{t-1}$
+- **Regresión Lineal:** $y = \beta_0 + \beta_1 x$
+- **Álgebra Lineal:** Gauss-Jordan sin librerías
+
+$$Riesgo = \frac{1}{3}(Tendencia + Regresion + AlgebraLineal)$$
+
+## Estructura del Proyecto
 
 ```
-├── app.py                 # Aplicación principal (con API externa)
-├── app_working.py         # Aplicación simplificada (recomendada)
-├── app_simple.py          # Versión alternativa
-├── requirements.txt       # Dependencias de Python
+app/
+├── api.py                    # Backend Flask
+├── analisis_sequia.py        # Módulo de modelos matemáticos
+├── analizar_municipios.py    # Script de análisis masivo
+├── requirements.txt          # Dependencias Python
+├── README.md                 # Este archivo
 ├── static/
-│   ├── style.css         # Estilos CSS
-│   ├── img1.png          # Imágenes
-│   └── img2.png
+│   ├── style.css
+│   └── script.js
 ├── templates/
-│   └── index.html        # Interfaz web
-└── README.md             # Este archivo
+│   └── index.html
+└── __pycache__/
 ```
 
-## 🧮 Modelos Matemáticos
+## Fuente de Datos
 
-### 1. Cálculo Diferencial
-- **Derivada de tendencia**: Analiza la tasa de cambio en la precipitación
-- **Fórmula**: `f'(x) ≈ f(x) - f(x-1)`
+- **API:** Open-Meteo Archive (https://archive-api.open-meteo.com/)
+- **Variables:** precipitation_sum, temperature_2m_mean, et0_fao_evapotranspiration
+- **Período:** Últimos 90 días
 
-### 2. Estadística
-- **Regresión lineal simple**: `y = β₀ + β₁x`
-- **Media y desviación estándar**: Análisis estadístico de datos históricos
+## Características Clave
 
-### 3. Álgebra Lineal
-- **Ecuación Normal**: `(X^T * X) * β = X^T * y`
-- **Eliminación Gauss-Jordan**: Resolución de sistemas de ecuaciones
+✓ API REST en Flask  
+✓ Interfaz web interactiva  
+✓ 75 municipios de Chihuahua  
+✓ Python puro (sin NumPy)  
+✓ Modelos matemáticos educativos  
+✓ Clasificación USDM (D0–D4)  
+✓ Gráficos con Chart.js  
 
-## 🎯 Funcionalidades
+## Notas
 
-### Análisis por Municipio
-- Selección de cualquier municipio de Chihuahua.
-- Cálculo automático de riesgo de sequía
-- Clasificación: BAJO, MEDIO, ALTO
+- D3 es la categoría más frecuente en Chihuahua (clima árido)
+- Los datos tienen 1 día de rezago para evitar incompletos
+- Disponible en http://127.0.0.1:5000 durante ejecución
 
-### Recomendaciones
-- **
-### Variables de Entorno
-No se requieren variables de entorno especiales. La aplicación funciona con datos simulados.
+## Licencia
 
-### Personalización
-- Modificar el diccionario `municipios` para agregar o cambiar coordenadas.
-- Ajustar parámetros de riesgo en las funciones de análisis
-- Personalizar estilos en `static/style.css`
-
-## 📊 API Endpoints
-
-- `GET /` - Página principal
-- `GET /api/analizar?municipio=Chihuahua` - Análisis de riesgo por municipio.
-
-## 🤝 Contribuciones
-
-1. Fork el proyecto
-2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeatur)re`)
-5. Abre un Pull Request
-
-## 📝 Licencia
-
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
-
-## 👥 Autores
-
-- **Tu Nombre** - *Desarrollo inicial* - [TuGitHub](https://github.com/tu-usuario)
-
-## 🙏 Agradecimientos
-
-- Open-Meteo API para datos meteorológicos
-- Chart.js para visualizaciones
-- Comunidad de desarrolladores Python/Flask
+Uso educativo e investigativo.
 
 ---
 
-**Nota**: Esta aplicación utiliza datos simulados para demostración. En un entorno de producción, se recomienda integrar con APIs meteorológicas reales.
-
-## 🚀 Despliegue en Vercel
-Esta aplicación está optimizada para funcionar en Vercel con la estructura `api/index.py`.
+**Última actualización:** 15 de noviembre de 2024
