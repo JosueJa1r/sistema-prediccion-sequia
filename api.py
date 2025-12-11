@@ -152,8 +152,8 @@ def calcular_indice_sequia(precipitacion, temperatura, evapotranspiracion):
         for i in range(len(precipitacion))
     ]
     
-    # Retornar el promedio
-    return _mean(indice_valores)
+    # Retornar el promedio y la serie de valores diarios
+    return _mean(indice_valores), indice_valores
 
 @app.route('/')
 def index():
@@ -190,7 +190,7 @@ def analizar_sequia():
             return jsonify({"error": f"Municipio '{municipio}' no encontrado"}), 400
         print(f"[API] Analizando: {municipio}")
         datos = obtener_datos_meteo(municipio)
-        indice = calcular_indice_sequia(datos["precipitacion"], datos["temperatura"], datos["evapotranspiracion"])
+        indice, indice_diario_serie = calcular_indice_sequia(datos["precipitacion"], datos["temperatura"], datos["evapotranspiracion"])
         # Llamada al modelo adicional del archivo adjunto (opcional)
         marg_param = request.args.get('marg')
         try:
@@ -277,7 +277,8 @@ def analizar_sequia():
                 "fechas": fechas,
                 "lluvia_mm": lluvia_lista,
                 "temperatura_c": temperatura_lista,
-                "evapotranspiracion_mm": evapotranspiracion_lista
+                "evapotranspiracion_mm": evapotranspiracion_lista,
+                "riesgo_diario": [round(val * 100, 1) for val in indice_diario_serie] # Nueva serie de riesgo
             },
             "promedio_mensual": promedio_mensual
         })

@@ -3,21 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Predicción de Sequía</title>
+    <title>Tierra que habla - Sistema de Sequía</title>
     <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Predicción de Sequía</h1>
-            <p>Sistema de análisis meteorológico en Chihuahua</p>
+            <!-- Selector de idioma -->
+            <div class="language-selector">
+                <label for="languageSelect">Idioma:</label>
+                <select id="languageSelect">
+                    <option value="es">Español</option>
+                    <option value="tara">Tarahumara</option>
+                    <option value="rara">Rarámuri</option>
+                </select>
+            </div>
+            
+            <h1 data-i18n="title">Tierra Que Habla</h1>
+            <p data-i18n="subtitle">Sistema de análisis meteorológico en Chihuahua</p>
         </div>
 
         <form id="analyzeForm">
             <div class="form-group">
-                <label for="municipio">Selecciona un municipio:</label>
+                <label for="municipio" data-i18n="selectMunicipality">Selecciona un municipio:</label>
                 <select id="municipio" required>
-                    <option value="">-- Elige un municipio --</option>
+                    <option value="" data-i18n="chooseMunicipality">-- Elige un municipio --</option>
                     <option value="Ahumada">Ahumada</option>
                     <option value="Aldama">Aldama</option>
                     <option value="Allende">Allende</option>
@@ -88,50 +98,66 @@
                 </select>
             </div>
 
-            <button type="submit">Analizar Sequía</button>
+            <button type="submit" data-i18n="analyzeButton">Analizar Sequía</button>
 
             <div class="loading" id="loading">
                 <div class="spinner"></div>
-                <p>Consultando datos meteorológicos...</p>
+                <p data-i18n="loadingMessage">Consultando datos meteorológicos...</p>
             </div>
         </form>
+
+        <!-- Botón para ver datos diarios -->
+        <a href="#" id="linkDatosDiarios" target="_blank" class="button-link" style="display: none;">Ver Datos Diarios</a>
 
         <div class="error" id="error"></div>
 
         <div class="result" id="result">
-            <h2 id="resultTitle">Análisis para <span id="municipioName"></span></h2>
+            <h2 id="resultTitle"><span data-i18n="analysisFor">Análisis para</span> <span id="municipioName"></span></h2>
 
             <div class="result-item">
-                <span class="result-label">Índice de Sequía:</span>
+                <span class="result-label" data-i18n="droughtIndex">Índice de Sequía:</span>
                 <span class="result-value" id="indiceValue">--</span>
             </div>
 
             <div class="result-item">
-                <span class="result-label">Categoría:</span>
+                <span class="result-label" data-i18n="category">Categoría:</span>
                 <span class="result-value" id="nivelValue">--</span>
             </div>
 
             <div class="datos-clima">
-                <h3>Datos Climáticos (Promedio últimos 90 días)</h3>
+                <h3 data-i18n="climateData">Datos Climáticos (Promedio últimos 90 días)</h3>
                 <div class="grid-datos">
                     <div class="dato-mini">
-                        <div class="dato-mini-label">Precipitación</div>
+                        <div class="dato-mini-label" data-i18n="precipitation">Precipitación</div>
                         <div class="dato-mini-value" id="precipValue">-- mm</div>
                     </div>
                     <div class="dato-mini">
-                        <div class="dato-mini-label">Temperatura</div>
+                        <div class="dato-mini-label" data-i18n="temperature">Temperatura</div>
                         <div class="dato-mini-value" id="tempValue">-- °C</div>
                     </div>
                     <div class="dato-mini">
-                        <div class="dato-mini-label">Evapotranspiración</div>
+                        <div class="dato-mini-label" data-i18n="evapotranspiration">Evapotranspiración</div>
                         <div class="dato-mini-value" id="evapValue">-- mm</div>
                     </div>
                 </div>
             </div>
 
+            <!-- Sección de Recomendaciones (movida aquí) -->
+            <div class="recomendaciones-container">
+                <h3 data-i18n="recommendations">Recomendaciones</h3>
+                <div class="recomendacion-card">
+                    <h4 data-i18n="forFarmers">Para Agricultores</h4>
+                    <p id="recAgricultores">--</p>
+                </div>
+                <div class="recomendacion-card">
+                    <h4 data-i18n="forRanchers">Para Ganaderos</h4>
+                    <p id="recGanaderos">--</p>
+                </div>
+            </div>
+
             <!-- Gráficas -->
             <div class="charts">
-                <h3>Gráficas</h3>
+                <h3 data-i18n="charts">Gráficas</h3>
                 <div class="charts-grid">
                     <div class="chart-card">
                         <canvas id="chartLine" width="400" height="200"></canvas>
@@ -142,12 +168,39 @@
                     <div class="chart-card">
                         <canvas id="chartBar" width="400" height="200"></canvas>
                     </div>
+                    <div class="chart-card">
+                        <canvas id="chartRegression" width="400" height="200"></canvas>
+                    </div>
                 </div>
+
+                <!-- Modelo matemático integrado -->
+                <div class="modelo-container" style="margin-top: 25px; padding-top: 20px; border-top: 2px solid #ddd; text-align: center;">
+                    <h3 style="color: rgb(139, 38, 50); margin-bottom: 15px;" data-i18n="riskEvolutionTitle">Evolución del Índice de Sequía</h3>
+                    <canvas id="modeloGrafica" width="600" height="300" style="border: 1px solid #ccc; background: white; border-radius: 8px; max-width: 100%;"></canvas>
+                    
+                    <!-- Leyenda para la gráfica del modelo -->
+                    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 15px; font-family: Arial, sans-serif; font-size: 12px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="width: 25px; height: 14px; border-radius: 3px; background: linear-gradient(to right, rgba(220, 53, 69, 0.1), rgba(220, 53, 69, 0.8));"></span>
+                            <span>Curva de Riesgo Real (90 días)</span>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="static/translations.js"></script>
     <script src="static/script.js"></script>
+
+    <!-- Contenedor Flotante para Mapa y Mensaje -->
+    <div class="floating-container">
+        <div id="mapMessage" class="floating-message">Consulta los puntos de apoyo.</div>
+        <a href="static/diferencial/mapa.html" id="mapButton" class="floating-button" title="Consultar puntos de apoyo">
+            🗺️
+        </a>
+    </div>
 </body>
 </html>

@@ -213,7 +213,7 @@ def main_cli():
     parser.add_argument('--precip', type=float, help='Precipitación actual (mm)')
     parser.add_argument('--temp', type=float, help='Temperatura actual (°C)')
     parser.add_argument('--marg', type=float, help='Índice de marginación (0..1)')
-    parser.add_argument('--hist-precip', type=str, help='Historial de precipitación como CSV (ej: 10,0,5,3)')
+    parser.add_argument('--hist-preczip', type=str, help='Historial de precipitación como CSV (ej: 10,0,5,3)')
     parser.add_argument('--hist-temp', type=str, help='Historial de temperatura como CSV (ej: 25,26,24)')
     parser.add_argument('--json', action='store_true', help='Imprimir salida en JSON')
     parser.add_argument('--interactive', action='store_true', help='Modo interactivo (pregunta por teclado)')

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla de Datos Diarios - Sequía</title>
+    <!-- Usaremos los mismos estilos de la página principal para consistencia -->
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        /* Estilos adicionales para la tabla */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tbody tr:hover {
+            background-color: #e9ecef;
+        }
+        .container {
+            max-width: 900px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Datos Diarios de los Últimos 90 Días</h1>
+            <p>Datos meteorológicos para el municipio de <strong id="nombreMunicipio">...</strong></p>
+        </div>
+
+        <div class="loading" id="loading" style="display: block;">
+            <div class="spinner"></div>
+            <p>Cargando datos...</p>
+        </div>
+
+        <div class="error" id="error"></div>
+
+        <div class="table-container" style="max-height: 600px; overflow-y: auto;">
+            <table id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Precipitación (mm)</th>
+                        <th>Temperatura (°C)</th>
+                        <th>Evapotranspiración (mm)</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Las filas de datos se insertarán aquí con JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Botón de descarga (movido aquí) -->
+        <div style="display: flex; gap: 15px; margin-top: 20px;">
+            <a href="/" class="button-link" style="display: block; flex: 1; margin-top: 0;">Volver al Inicio</a>
+            <button id="downloadBtn" class="button-link" style="display: none; flex: 1; margin-top: 0; background: linear-gradient(135deg, #28a745 0%, #218838 100%);">Descargar como CSV</button>
+        </div>
+
+    </div>
+
+    <script>
+        function downloadCSV(series, municipio) {
+            const headers = ['Fecha', 'Precipitación (mm)', 'Temperatura (°C)', 'Evapotranspiración (mm)'];
+            let csvContent = headers.join(',') + '\n';
+
+            for (let i = 0; i < series.fechas.length; i++) {
+                const row = [
+                    series.fechas[i],
+                    series.lluvia_mm[i].toFixed(2),
+                    series.temperatura_c[i].toFixed(2),
+                    series.evapotranspiracion_mm[i].toFixed(2)
+                ].join(',');
+                csvContent += row + '\n';
+            }
+
+            // Crear un Blob con el contenido CSV
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+
+            // Crear un enlace temporal para iniciar la descarga
+            const link = document.createElement("a");
+            if (link.download !== undefined) { // Feature detection
+                const url = URL.createObjectURL(blob);
+                const filename = `datos_diarios_${municipio.replace(/ /g, '_')}.csv`;
+                link.setAttribute("href", url);
+                link.setAttribute("download", filename);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const API_URL = 'http://127.0.0.1:5000/api';
+
+            // Leer el municipio desde los parámetros de la URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const municipio = urlParams.get('municipio') || 'Chihuahua'; // Si no hay parámetro, usa 'Chihuahua' por defecto
+
+            document.getElementById('nombreMunicipio').textContent = municipio;
+
+            try {
+                const response = await fetch(`${API_URL}/analizar?municipio=${municipio}`);
+                if (!response.ok) throw new Error(`Error ${response.status}`);
+                
+                const data = await response.json();
+                if (!data.success) throw new Error(data.error || 'La API devolvió un error.');
+
+                const series = data.series;
+                const tableBody = document.getElementById('tableBody');
+                
+                for (let i = 0; i < series.fechas.length; i++) {
+                    const row = `<tr>
+                        <td>${series.fechas[i]}</td>
+                        <td>${series.lluvia_mm[i].toFixed(2)}</td>
+                        <td>${series.temperatura_c[i].toFixed(2)}</td>
+                        <td>${series.evapotranspiracion_mm[i].toFixed(2)}</td>
+                    </tr>`;
+                    tableBody.innerHTML += row;
+                }
+
+                // Mostrar y configurar el botón de descarga
+                const downloadBtn = document.getElementById('downloadBtn');
+                downloadBtn.style.display = 'block';
+                downloadBtn.addEventListener('click', () => {
+                    downloadCSV(series, municipio);
+                });
+
+            } catch (err) {
+                document.getElementById('error').textContent = `Error al cargar los datos: ${err.message}`;
+                document.getElementById('error').classList.add('show');
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

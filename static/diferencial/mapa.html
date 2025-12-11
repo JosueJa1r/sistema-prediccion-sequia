@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Apoyos por Sequía en Chihuahua</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, rgba(139, 38, 50, 0.85) 0%, rgba(204, 163, 71, 0.85) 100%), url('/static/logo.png') center/cover no-repeat fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container-card {
+            background-color: rgb(250, 238, 221);
+            padding: 32px 40px; /* Más padding vertical */
+            border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.07), 0 4px 6px -4px rgb(0 0 0 / 0.1); /* Sombra más suave y moderna */
+            max-width: 1100px;
+            width: 100%;
+        }
+        #google-map {
+            width: 100%;
+            height: 60vh; 
+            min-height: 450px;
+            border-radius: 12px;
+            border: 1px solid #ccc;
+        }
+        .legend-item {
+            padding: 12px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .legend-item:hover {
+            background-color: #fafafa; /* Un sutil hover para interactividad */
+        }
+        
+        /* Colores de Categoría para la Leyenda */
+        .acopio { background-color: rgb(139, 38, 50); /* Rojo Principal */ }
+        .mercado { background-color: #CCA347; /* Dorado Principal */ }
+        .logistica { background-color: #667eea; /* Azul de Gráficas */ }
+        .semillas { background-color: #27ae60; /* Verde Consistente */ }
+        .central { background-color: #764ba2; /* Púrpura de Gráficas */ }
+        .agua { background-color: #3498db; /* Azul Claro Distintivo */ }
+
+        .legend-details {
+            margin-top: 8px; /* Más espacio */
+            padding-left: 20px; /* Alineación con el texto del título */
+        }
+        .legend-details p {
+            line-height: 1.3;
+        }
+
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <div class="container-card">
+        <h1 class="text-3xl font-bold mb-2 border-b pb-2" style="color: rgb(139, 38, 50);">Red de Apoyos Estatales por Sequía en Chihuahua</h1>
+        <p class="text-gray-600 mb-6">Localización de centros y puntos clave de apoyo contra la sequía. <strong>Haga clic en un marcador para ver detalles.</strong></p>
+
+        <!-- Contenedor principal del mapa y la leyenda -->
+        <div class="grid md:grid-cols-3 gap-8">
+            
+            <!-- Leyenda y Descripción (Columna 1) -->
+            <div class="md:col-span-1">
+                <h2 class="text-xl font-semibold mb-3 text-gray-700">Leyenda de Apoyos</h2>
+                <ul class="space-y-2 text-sm">
+                    <!-- ACAPIO DIF / ALIMENTACIÓN (D2, D3) -->
+                    <li class="flex items-start legend-item">
+                        <span class="w-4 h-4 rounded-full acopio border border-gray-300 mt-1 mr-2 flex-shrink-0"></span>
+                        <div>
+                            <p class="font-bold text-gray-800">Acopio DIF / Alimentación</p>
+                            <p class="text-xs text-gray-500">(D2, D3: Guachochi, Urique)</p>
+                            <div class="legend-details text-xs">
+                                <p>Teléfono (Ej. Guachochi): <span class="font-semibold text-blue-600">649-555-1234</span></p>
+                                <p>Horario: <span class="font-medium">Lunes a Domingo: 12:00 - 14:00</span></p>
+                                <p class="text-gray-600 italic mt-1">Entrega de despensas y comidas calientes en municipios serranos.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- MERCADO GANADERO REGIONAL (D1, D2) -->
+                    <li class="flex items-start legend-item">
+                        <span class="w-4 h-4 rounded-full mercado border border-gray-300 mt-1 mr-2 flex-shrink-0"></span>
+                        <div>
+                            <p class="font-bold text-gray-800">Mercado Ganadero Regional</p>
+                            <p class="text-xs text-gray-500">(D1, D2: Parral, Delicias, Cuauhtémoc)</p>
+                            <div class="legend-details text-xs">
+                                <p>Teléfono (Ej. Cuauhtémoc): <span class="font-semibold text-blue-600">625-333-5678</span></p>
+                                <p>Horario: <span class="font-medium">Martes a Viernes: 9:00 - 16:00</span></p>
+                                <p class="text-gray-600 italic mt-1">Venta subsidiada de forraje y asesoría para reducción de hato.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- LOGÍSTICA DE AGUA Y TRANSPORTE (D3) -->
+                    <li class="flex items-start legend-item">
+                        <span class="w-4 h-4 rounded-full logistica border border-gray-300 mt-1 mr-2 flex-shrink-0"></span>
+                        <div>
+                            <p class="font-bold text-gray-800">Logística de Agua y Transporte</p>
+                            <p class="text-xs text-gray-500">(D3: Bocoyna)</p>
+                            <div class="legend-details text-xs">
+                                <p>Teléfono (Ej. Bocoyna): <span class="font-semibold text-blue-600">635-987-6543</span></p>
+                                <p>Horario: <span class="font-medium">Lunes a Sábado: 8:00 - 18:00</span></p>
+                                <p class="text-gray-600 italic mt-1">Coordinación de pipas de agua para comunidades altas.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- BANCO DE SEMILLAS / AGRÍCOLA (D0) -->
+                    <li class="flex items-start legend-item">
+                        <span class="w-4 h-4 rounded-full semillas border border-gray-300 mt-1 mr-2 flex-shrink-0"></span>
+                        <div>
+                            <p class="font-bold text-gray-800">Banco de Semillas / Agrícola</p>
+                            <p class="text-xs text-gray-500">(D0: San Juanito)</p>
+                            <div class="legend-details text-xs">
+                                <p>Teléfono (Ej. San Juanito): <span class="font-semibold text-blue-600">635-123-4567</span></p>
+                                <p>Horario: <span class="font-medium">Lunes a Viernes: 8:00 - 15:00</span></p>
+                                <p class="text-gray-600 italic mt-1">Distribución de semillas criollas resistentes a la sequía.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- PUNTO DE AGUA COMUNITARIO (D1) -->
+                     <li class="flex items-start legend-item">
+                        <span class="w-4 h-4 rounded-full agua border border-gray-300 mt-1 mr-2 flex-shrink-0"></span>
+                        <div>
+                            <p class="font-bold text-gray-800">Punto de Agua Comunitario</p>
+                            <p class="text-xs text-gray-500">(D1: San Francisco de Conchos)</p>
+                            <div class="legend-details text-xs">
+                                <p>Teléfono (Ej. San Fco.): <span class="font-semibold text-blue-600">648-111-7890</span></p>
+                                <p>Horario: <span class="font-medium">Martes a Sábado: 7:00 - 17:00</span></p>
+                                <p class="text-gray-600 italic mt-1">Acceso regulado a fuentes de agua para ganado antes de sequía severa.</p>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- PROTECCIÓN CIVIL (911) / CAPITAL (D4) -->
+                    <li class="flex items-start legend-item">
+                        <span class="w-4 h-4 rounded-full central border border-gray-300 mt-1 mr-2 flex-shrink-0"></span>
+                        <div>
+                            <p class="font-bold text-gray-800">Protección Civil (911) / Capital</p>
+                            <p class="text-xs text-gray-500">(D4: Centro de Coordinación)</p>
+                            <div class="legend-details text-xs">
+                                <p>Teléfono: <span class="font-semibold text-blue-600">911 (Emergencias)</span></p>
+                                <p>Horario: <span class="font-medium">24/7</span></p>
+                                <p class="text-gray-600 italic mt-1">Centro principal de coordinación de respuesta a desastres y sequías extremas.</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Mapa de Google Maps (Columna 2 y 3) -->
+            <div class="md:col-span-2 relative">
+                <div id="google-map" class="shadow-lg">
+                    <!-- El mapa se carga aquí dinámicamente -->
+                </div>
+                <p class="text-center text-sm text-gray-500 mt-2">Mapa generado con la API de Google Maps. Ubicaciones aproximadas.</p>
+
+                <!-- Cuadro de Emergencia (Movido aquí) -->
+                <div class="mt-6 p-4 bg-red-50 border border-red-300 rounded-lg">
+                    <h3 class="text-md font-semibold text-red-700 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 3.01-1.742 3.01H4.42c-1.53 0-2.493-1.676-1.743-3.01l5.58-9.92zM10 13a1 1 0 110-2 1 1 0 010 2zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" /></svg>EMERGENCIA D4</h3>
+                    <p class="text-sm text-gray-700 mt-1">
+                        Si se encuentra en Sequía Excepcional (D4), llame inmediatamente al <strong>911</strong> (Funciona 24/7). El centro de coordinación estatal está en Chihuahua Capital.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botón para regresar a la página principal -->
+        <div class="mt-8 text-center">
+            <a href="/" 
+               class="inline-block text-white font-bold py-3 px-8 rounded-lg transition-transform transform hover:scale-105 shadow-lg"
+               style="background-color: rgb(139, 38, 50);">
+                Volver a la Página Principal
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURACIÓN DE GOOGLE MAPS ---
+
+        // Definición de los puntos de apoyo con sus coordenadas y tipo de icono
+        const locations = [
+            { name: "Chihuahua Capital", lat: 28.6329, lng: -106.0691, support: "Coordinación Estatal Protección Civil", type: 'central', phone: "911 (Emergencias)", schedule: "24/7", info: "Centro principal de coordinación de respuesta a sequías extremas (D4) y desastres." },
+            { name: "San Juanito", lat: 27.9100, lng: -107.4100, support: "Banco de Semillas Criollas", type: 'semillas', phone: "635-123-4567", schedule: "Lunes a Viernes: 8:00 - 15:00", info: "Distribución de semillas resistentes a la sequía para pequeños agricultores." },
+            { name: "Bocoyna", lat: 27.8100, lng: -107.6100, support: "Logística de Camión de Agua", type: 'logistica', phone: "635-987-6543", schedule: "Lunes a Sábado: 8:00 - 18:00", info: "Punto de coordinación para envío de pipas de agua a comunidades afectadas." },
+            { name: "Guachochi", lat: 27.0800, lng: -107.1300, support: "Comedor Comunitario / DIF", type: 'acopio', phone: "649-555-1234", schedule: "Lunes a Domingo: 12:00 - 14:00", info: "Entrega de despensas y comidas calientes en colaboración con el DIF Estatal." },
+            { name: "Urique", lat: 27.5000, lng: -108.2000, support: "Centro de Acopio DIF", type: 'acopio', phone: "635-444-9876", schedule: "Lunes a Sábado: 9:00 - 17:00", info: "Recepción y distribución de ayuda humanitaria y forraje de emergencia." },
+            { name: "Cuauhtémoc", lat: 28.4000, lng: -106.8600, support: "Mercado Regional de Forraje y Ganado", type: 'mercado', phone: "625-333-5678", schedule: "Martes a Viernes: 9:00 - 16:00", info: "Apoyo a ganaderos con precios subsidiados para forraje y asesoría." },
+            { name: "Delicias", lat: 28.1900, lng: -105.4700, support: "Mercado Regional Ganadero", type: 'mercado', phone: "639-222-3456", schedule: "Lunes a Jueves: 8:30 - 14:30", info: "Punto clave para la compra/venta regulada de ganado y apoyo agrícola." },
+            { name: "San Fco. de Conchos", lat: 27.5200, lng: -105.4100, support: "Punto de Agua Comunitario", type: 'agua', phone: "648-111-7890", schedule: "Martes a Sábado: 7:00 - 17:00", info: "Acceso regulado a fuentes de agua para consumo humano y animal." },
+            { name: "Parral", lat: 26.9300, lng: -105.6700, support: "Feria Ganadera", type: 'mercado', phone: "627-777-1122", schedule: "Jueves a Sábado: 10:00 - 17:00", info: "Feria temporal para facilitar el comercio de ganado afectado por la sequía." },
+        ];
+
+        // Mapeo de tipos de apoyo a colores hexadecimales para iconos
+        const colorMap = {
+            'acopio': 'rgb(139, 38, 50)',
+            'mercado': '#CCA347',
+            'logistica': '#667eea',
+            'semillas': '#27ae60',
+            'central': '#764ba2',
+            'agua': '#3498db'
+        };
+
+        let map;
+
+        // Función de inicialización del mapa (llamada por la API de Google Maps)
+        function initMap() {
+            // Centro de Chihuahua (Aproximado)
+            const chihuahuaCenter = { lat: 28.000, lng: -106.400 };
+
+            map = new google.maps.Map(document.getElementById("google-map"), {
+                zoom: 7, // Nivel de zoom apropiado para ver todo el estado
+                center: chihuahuaCenter,
+                streetViewControl: false,
+                mapTypeControl: false,
+            });
+
+            // Añadir todos los marcadores al mapa
+            locations.forEach(location => {
+                addMarker(location);
+            });
+        }
+
+        // Función para añadir un marcador interactivo
+        function addMarker(location) {
+            const color = colorMap[location.type] || '#000000';
+            
+            // Creación del icono con el color de la categoría
+            const markerIcon = {
+                path: google.maps.SymbolPath.CIRCLE,
+                fillColor: color,
+                fillOpacity: 1,
+                strokeWeight: 2,
+                strokeColor: '#FFFFFF',
+                scale: 10,
+            };
+
+            const marker = new google.maps.Marker({
+                position: { lat: location.lat, lng: location.lng },
+                map: map,
+                title: location.name,
+                icon: markerIcon
+            });
+
+            // Ventana de información que aparece al hacer clic (AHORA CON DETALLES)
+            const infoWindowContent = `
+                <div class="p-1 max-w-xs font-sans">
+                    <h4 class="font-bold text-base text-gray-900">${location.name}</h4>
+                    <p class="text-sm text-gray-600 mb-2 font-semibold">${location.support}</p>
+                    
+                    <div class="space-y-1.5 mt-3 border-t pt-2">
+                        <p class="text-xs text-gray-600">
+                            <strong class="text-gray-800">Teléfono:</strong> <span class="font-semibold text-blue-600">${location.phone}</span>
+                        </p>
+                        <p class="text-xs text-gray-600">
+                            <strong class="text-gray-800">Horario:</strong> ${location.schedule}
+                        </p>
+                        <p class="text-xs text-gray-500 mt-2 italic">
+                            ${location.info}
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            const infoWindow = new google.maps.InfoWindow({
+                content: infoWindowContent,
+            });
+
+            marker.addListener("click", () => {
+                // Se podría agregar lógica para cerrar otras InfoWindows si se desea un comportamiento de InfoWindow único.
+                infoWindow.open({
+                    anchor: marker,
+                    map,
+                    shouldFocus: false,
+                });
+            });
+        }
+
+        // Carga dinámica del script de Google Maps
+        function loadGoogleMapsScript() {
+            // Verifica si ya está cargado (para evitar errores en algunos navegadores)
+            if (typeof google === 'object' && typeof google.maps === 'object') {
+                initMap(); 
+                return;
+            }
+            const script = document.createElement('script');
+            // Carga sin la clave API. El entorno inyectará la clave automáticamente.
+            script.src = `https://maps.googleapis.com/maps/api/js?callback=initMap`;
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
+        }
+
+        // Inicia el proceso de carga
+        window.onload = loadGoogleMapsScript;
+
+    </script>
+
+</body>
+</html>

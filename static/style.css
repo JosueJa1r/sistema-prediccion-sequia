@@ -27,6 +27,41 @@ body {
 .header {
     text-align: center;
     margin-bottom: 30px;
+    position: relative;
+}
+
+/* Selector de idioma */
+.language-selector {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 12px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.language-selector label {
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+.language-selector select {
+    border: none;
+    background: transparent;
+    font-size: 0.9em;
+    font-weight: 600;
+    color: rgb(139, 38, 50);
+    cursor: pointer;
+    outline: none;
+    padding: 4px;
+}
+
+.language-selector select:hover {
+    color: rgb(204, 163, 71);
 }
 
 .header h1 {
@@ -336,4 +371,116 @@ button:active {
     }
 }
 
+.button-link {
+    display: none; /* Oculto por defecto */
+    text-align: center;
+    text-decoration: none;
+    margin-top: 20px;
+    padding: 14px;
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+    color: white;
+    border-radius: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.button-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
 /* Responsive rules removed as requested */
+
+/* --- Estilos para la sección de Recomendaciones --- */
+.recomendaciones-container {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 2px solid #ddd;
+}
+
+.recomendaciones-container h3 {
+    text-align: center;
+    color: rgb(139, 38, 50);
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+.recomendacion-card {
+    background: #ffffff; /* Aseguramos un fondo blanco puro para el contraste */
+    border-left: 4px solid #CCA347;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.recomendacion-card h4 {
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.recomendacion-card p {
+    color: #555;
+    line-height: 1.6;
+}
+
+/* --- Estilos para el Contenedor Flotante --- */
+.floating-container {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.floating-button {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, rgb(139, 38, 50) 0%, #CCA347 100%);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    text-decoration: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+.floating-button:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(139, 38, 50, 0.4);
+}
+
+.floating-message {
+    background-color: #fff;
+    color: #333;
+    padding: 10px 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    white-space: nowrap;
+    font-weight: 600;
+    /* Hacemos el mensaje visible por defecto */
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+/* Responsive para selector de idiomas */
+@media (max-width: 600px) {
+    .language-selector {
+        position: static;
+        justify-content: center;
+        margin-bottom: 15px;
+        width: fit-content;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .header h1 {
+        font-size: 2em;
+    }
+}
